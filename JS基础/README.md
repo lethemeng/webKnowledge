@@ -150,19 +150,6 @@ function ajax(url, handler){
  - 控制台日志 (console.log)
  - 移除存在绑定事件的 DOM 元素 (IE)
 
-### 为什么要使用模块化？都有哪几种方式可以实现模块化，各有什么特点
-
-模块化可以给我们带来以下好处
-
- - 解决命名冲突
- - 提供复用性
- - 提高代码可维护性
-
-实现模块化方式：
- - 立即执行函数
- - AMD 和 CMD
- - CommonJS
- - ES Module
 
 ### setTimeout、setInterval
 常见的定时器函数有 `setTimeout`、`setInterval`、`requestAnimationFrame`，但 setTimeout、setInterval 并不是到了哪个时间就执行，**而是到了那个时间把任务加入到异步事件队列中**。

@@ -72,6 +72,8 @@ JS 引擎则：解析和执行 javascript 来实现逻辑和控制 DOM 进行交
 最开始渲染引擎和 JS 引擎并没有区分的很明确，后来 JS 引擎越来越独立，内核就倾向于只指渲染引擎。
 
 ### HTML5 变化
+
+优点：
  - [新的语义化元素](http://www.w3school.com.cn/html/html5_new_elements.asp)
    - header footer nav main article  section
    - 删除了一些纯样式的标签
@@ -83,6 +85,18 @@ JS 引擎则：解析和执行 javascript 来实现逻辑和控制 DOM 进行交
    - 实时通信（websoket）
    - 本地存储（localStorage, indexDB）
    - 设备能力（地图定位，手机摇一摇）
+
+缺点：
+ a、安全：像之前 Firefox4 的 web socket 和透明代理的实现存在严重的安全问题，同时 web storage、web socket 这样的功能很容易被黑客利用，来盗取用户的信息和资料。 
+
+b、完善性：许多特性各浏览器的支持程度也不一样。 
+
+c、技术门槛：HTML5 简化开发者工作的同时代表了有许多新的属性和 API 需要开发者学习，像 web worker、web socket、web storage 等新特性，后台甚至浏览器原理的知识，机遇的同时也是巨大的挑战 
+
+d、性能：某些平台上的引擎问题导致 HTML5 性能低下。 
+
+e、浏览器兼容性：最大缺点，IE9 以下浏览器几乎全军覆没。
+
 
 ### em 与 i 的区别
  - 效果都是斜体

@@ -1,3 +1,19 @@
+<!-- TOC -->
+
+- [webpack 优化](#webpack-%E4%BC%98%E5%8C%96)
+  - [减小打包后文件体积](#%E5%87%8F%E5%B0%8F%E6%89%93%E5%8C%85%E5%90%8E%E6%96%87%E4%BB%B6%E4%BD%93%E7%A7%AF)
+    - [按需加载](#%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD)
+    - [Tree Shaking](#tree-shaking)
+    - [Scope Hoisting](#scope-hoisting)
+  - [加快打包速度](#%E5%8A%A0%E5%BF%AB%E6%89%93%E5%8C%85%E9%80%9F%E5%BA%A6)
+    - [优化 Loader](#%E4%BC%98%E5%8C%96-loader)
+    - [HappyPack](#happypack)
+    - [DllPlugin](#dllplugin)
+    - [代码压缩](#%E4%BB%A3%E7%A0%81%E5%8E%8B%E7%BC%A9)
+    - [一些小的优化点](#%E4%B8%80%E4%BA%9B%E5%B0%8F%E7%9A%84%E4%BC%98%E5%8C%96%E7%82%B9)
+
+<!-- /TOC -->
+
 # webpack 优化
 
 - 有哪些方式可以减少 Webpack 的打包时间

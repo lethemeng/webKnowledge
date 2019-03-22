@@ -25,6 +25,191 @@
 
 假设高度已知，请写出三栏布局，其中左右栏宽 300px, 中间自适应
 
+1. 浮动-1
+
+```html
+<div class="wrap">
+  <div class="left">左侧</div>
+  <div class="right">右侧</div>
+  <div class="middle">中间</div>
+</div>
+```
+
+```css
+.wrap {
+  background: #eee;
+  overflow: hidden;
+  padding: 20px;
+}
+.left {
+  width: 200px;
+  height: 50px;
+  float: left;
+  background: coral;
+}
+.right {
+  width: 120px;
+  height: 200px;
+  float: right;
+  background: lightblue;
+}
+
+.middle {
+  margin-left: 220px;
+  margin-right: 140px;
+  background: lightpink;
+}
+```
+
+2. 绝对定位
+
+```html
+<div class="wrap">
+  <div class="left">左侧</div>
+  <div class="right">右侧</div>
+  <div class="middle">中间</div>
+</div>
+```
+
+```css
+.wrap {
+  position: relative;
+  background: #eee;
+}
+.left {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 200px;
+  height: 50px;
+  background: coral;
+}
+.right {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 120px;
+  height: 200px;
+  background: lightblue;
+}
+
+.middle {
+  height: 50px;
+  margin-left: 220px;
+  margin-right: 140px;
+  background: lightpink;
+}
+```
+
+![ab](../../img/三栏-ab.png)
+
+1. 表格布局
+
+```html
+<style>
+  .container {
+    display: table;
+    width: 100%;
+  }
+  .left,
+  .main,
+  .right {
+    display: table-cell;
+  }
+  .left {
+    width: 200px;
+    height: 300px;
+    background-color: red;
+  }
+  .main {
+    background-color: blue;
+  }
+  .right {
+    width: 100px;
+    height: 300px;
+    background-color: green;
+  }
+</style>
+<div class="container">
+  <div class="left"></div>
+  <div class="main"></div>
+  <div class="right"></div>
+</div>
+```
+
+4. flex
+
+```html
+<div class="wrap">
+  <div class="left">左侧</div>
+  <div class="middle">中间</div>
+  <div class="right">右侧</div>
+</div>
+
+<style type="text/css">
+  .wrap {
+    display: flex;
+    justify-content: space-between;
+  }
+  .left,
+  .right,
+  .middle {
+    height: 100px;
+  }
+  .left {
+    width: 200px;
+    background: coral;
+  }
+  .right {
+    width: 120px;
+    background: lightblue;
+  }
+  .middle {
+    background: #555;
+    width: 100%;
+    margin: 0 20px;
+  }
+</style>
+```
+
+5. grid
+
+6. float 浮动
+   ```html
+   <div class="container">
+     <div class="main"></div>
+     <div class="left"></div>
+     <div class="right"></div>
+   </div>
+   ```
+   ```css
+   container {
+     margin-left: 120px;
+     margin-right: 220px;
+   }
+   .main {
+     float: left;
+     width: 100%;
+     height: 300px;
+     background-color: red;
+   }
+   .left {
+     float: left;
+     width: 200px;
+     height: 300px;
+     margin-left: -100%;
+     position: relative;
+     background-color: blue;
+   }
+   .right {
+     float: left;
+     width: 200px;
+     height: 300px;
+     margin-left: -200px;
+     background-color: green;
+   }
+   ```
+
 ### 圣杯布局
 
 要求：三列布局；中间宽度自适应，两边内容定宽。

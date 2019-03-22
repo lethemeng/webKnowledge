@@ -47,3 +47,25 @@ session 一个场景是购物车，添加了商品之后客户端处可以知道
 - cookie 在客户端中存放，容易伪造，不如 session 安全
 - session 会消耗大量服务器资源，cookie 在每次 HTTP 请求中都会带上，影响网络性能
 - 域的支持范围不一样，比方说 a.com 的 Cookie 在 a.com 下都能用，而 www.a.com 的 Session 在 api.a.com 下都不能用
+
+## Cookie 的跨域访问
+
+基于安全考虑，浏览器是无法跨域获取 Cookie 的，在进行 CROS 跨域请求时，浏览器不会自动发送 Cookie
+
+想要跨域发送 Cookie 的话需要服务器做一些配置
+
+1. 在网页端，对于跨域的`XMLHttpRequest` 请求，需要设置 `withCredentials` 属性设置为`true`
+
+```js
+let xhr = new XMLHttpRequest()
+xhr.open('GET', 'http://a.cn')
+xhr.withCredentials = true
+xhr.send()
+```
+
+同时服务端的响应中必须携带`Access-Control-Allow-Credentials: true`首部。  
+ 另外有一点需要注意的是：规范中提到，如果 `XMLHttpRequest` 请求设置了 `withCredentials` 属性，那么服务器不得设置 `Access-Control-Allow-Origin` 的值为`*` ，否则浏览器将会抛出 `The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*'`错误。
+
+2. 同源策略，中间转发
+3. 假设有 `a.ex.com` 和 `b.ex.com` 那么要让`cookie`可以在这两个域名下可访问，则可以通过设置`cookie`的`domain`为`ex.com`,只能跨一级域名
+4. 在同一个服务器上有目录`/JavaScript/`,`/JavaScript/dir1/`,`/JavaScript/dir2/`, 那么`/JavaScript/`下的 cookie 可以被所有页面所访问，因此设置 cookie 的 path 可以让路径下的页面都问得到 cookie 例如，设置`path=/JavaScript`

@@ -4,6 +4,7 @@
   - [[CSS 选择器](./CSS 选择器。md)](#css-选择器css-选择器md)
   - [盒模型](#盒模型)
   - [CSS 如何设置这两种盒模型](#css-如何设置这两种盒模型)
+  - [js 获取和设置盒模型对应的宽高](#js-获取和设置盒模型对应的宽高)
   - [BFC](#bfc)
   - [非布局样式](#非布局样式)
   - [行高的构成](#行高的构成)
@@ -84,6 +85,16 @@ box-sizing: content-box;
 ```css
 box-sizing: border-box;
 ```
+
+### js 获取和设置盒模型对应的宽高
+
+`dom.style.width/height` 指的是内联属性的 height/width
+
+`dom.currentStyle.width/height` 即时的宽高 ie 支持
+
+`window.getComputedStyle(dom).width/height`
+
+`dom.getBoundingClientRect().width/height`
 
 ### BFC
 

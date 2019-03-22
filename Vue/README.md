@@ -34,13 +34,6 @@
 
 <!-- /TOC -->
 
-### vue 和 react 区别
-
-改变数据方式不同，Vue 修改状态相比来说要简单许多，React 需要使用 setState 来改变状态，并且使用这个 API 也有一些坑点。
-Vue 的底层使用了依赖追踪，页面更新渲染已经是最优的了，但是 React 还是需要用户手动去优化这方面的问题。
-
-React 需要使用 JSX，Vue 使用了模板语法
-
 ### v-bind 和 v-model 的区别
 
 1.v-bind 用来绑定数据和属性以及表达式，缩写为'：'
@@ -48,7 +41,10 @@ React 需要使用 JSX，Vue 使用了模板语法
 
 ### 什么是 mvvm
 
-MVVM 是 Model-View-ViewModel 的缩写。mvvm 是一种设计思想。Model 层代表数据模型，也可以在 Model 中定义数据修改和操作的业务逻辑；View 代表 UI 组件，它负责将数据模型转化成 UI 展现出来，ViewModel 是一个同步 View 和 Model 的对象。
+MVVM 是 Model-View-ViewModel 的缩写。mvvm 是一种设计思想。  
+Model 层代表数据模型，也可以在 Model 中定义数据修改和操作的业务逻辑；  
+View 代表 UI 组件，它负责将数据模型转化成 UI 展现出来，  
+ViewModel 是一个同步 View 和 Model 的对象。
 
 在 MVVM 架构下，View 和 Model 之间并没有直接的联系，而是通过 ViewModel 进行交互，Model 和 ViewModel 之间的交互是双向的， 因此 View 数据的变化会同步到 Model 中，而 Model 数据的变化也会立即反应到 View 上。
 

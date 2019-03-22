@@ -18,7 +18,6 @@
     - [操作系统中的堆和栈是怎么分配的，js](#操作系统中的堆和栈是怎么分配的js)
     - [Javascript 垃圾回收方法](#javascript-垃圾回收方法)
     - [哪些操作会造成内存泄漏](#哪些操作会造成内存泄漏)
-    - [为什么要使用模块化？都有哪几种方式可以实现模块化，各有什么特点](#为什么要使用模块化都有哪几种方式可以实现模块化各有什么特点)
     - [setTimeout、setInterval](#settimeoutsetinterval)
     - [cookie，localStorage，sessionStorage，indexDB](#cookielocalstoragesessionstorageindexdb)
 
@@ -139,7 +138,16 @@ function ajax(url, handler){
 
  - 在低版本 IE 中经常会出现内存泄露，很多时候就是因为其采用引用计数方式进行垃圾回收。引用计数的策略是跟踪记录每个值被使用的次数，当声明了一个 变量并将一个引用类型赋值给该变量的时候这个值的引用次数就加 1，如果该变量的值变成了另外一个，则这个值得引用次数减 1，当这个值的引用次数变为 0 的时 候，说明没有变量在使用，这个值没法被访问了，因此可以将其占用的空间回收，这样垃圾回收器会在运行的时候清理掉引用次数为 0 的值占用的空间
 
-参考链接 [内存管理 -MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Memory_Management)
+> 参考链接 [内存管理 -MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Memory_Management)
+
+V8 将内存分为两类：新生代内存空间和老生代内存空间。
+
+  - 新生代内存空间：主要用来存放存活时间较短的对象。
+  - 老生代内存空间：主要用来存放存活时间较长的对象。
+  这两者通过不同的算法，对内存进行管理操作。
+
+分代内存  
+默认情况下，32 位系统新生代内存大小为 16MB，老生代内存大小为 700MB，64 位系统下，新生代内存大小为 32MB，老生代内存大小为 1.4GB。
 
 ### 哪些操作会造成内存泄漏
 
@@ -150,6 +158,7 @@ function ajax(url, handler){
  - 控制台日志 (console.log)
  - 移除存在绑定事件的 DOM 元素 (IE)
 
+> 使用 Chrome 的 Timeline（新版本 Performance）进行内存标记，可视化查看内存的变化情况，找出异常点。
 
 ### setTimeout、setInterval
 常见的定时器函数有 `setTimeout`、`setInterval`、`requestAnimationFrame`，但 setTimeout、setInterval 并不是到了哪个时间就执行，**而是到了那个时间把任务加入到异步事件队列中**。

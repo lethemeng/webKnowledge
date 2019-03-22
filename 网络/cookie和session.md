@@ -1,3 +1,15 @@
+<!-- TOC -->
+
+- [cookie 和 session](#cookie-%E5%92%8C-session)
+  - [应用场景](#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF)
+  - [cookie](#cookie)
+    - [cookie 属性](#cookie-%E5%B1%9E%E6%80%A7)
+  - [session](#session)
+  - [sesssion 与 cookie 的区别](#sesssion-%E4%B8%8E-cookie-%E7%9A%84%E5%8C%BA%E5%88%AB)
+  - [Cookie 的跨域访问](#cookie-%E7%9A%84%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE)
+
+<!-- /TOC -->
+
 # cookie 和 session
 
 ## 应用场景
@@ -48,7 +60,7 @@ session 一个场景是购物车，添加了商品之后客户端处可以知道
 - session 会消耗大量服务器资源，cookie 在每次 HTTP 请求中都会带上，影响网络性能
 - 域的支持范围不一样，比方说 a.com 的 Cookie 在 a.com 下都能用，而 www.a.com 的 Session 在 api.a.com 下都不能用
 
-## Cookie 的跨域访问
+## [Cookie 的跨域访问](https://blog.csdn.net/zhouziyu2011/article/details/61200943)
 
 基于安全考虑，浏览器是无法跨域获取 Cookie 的，在进行 CROS 跨域请求时，浏览器不会自动发送 Cookie
 

@@ -1,3 +1,7 @@
+
+
+
+
 <!-- TOC -->
 
 - [DOM](#dom)
@@ -40,22 +44,46 @@
 - DOM0
   - onXXX 类型的定义事件
   - element.onclick = function(e) { ... }
+  - 在当前元素事件行为的冒泡阶段(或者目标阶段执行)
 - DOM2
-  - addEventListener 方式
+  - **el.addEventListener(event-name, callback, useCapture)**方式
+  - **useCapture: 默认是false，代表事件句柄在冒泡阶段执行**
   - element.addEventListener('click', function (e) { ... })
   - btn.removeEventListener('click', func, false)
   - btn.attachEvent("onclick", func);
   - btn.detachEvent("onclick", func);
 - DOM3
   - 增加了很多事件类型
+  
   - element.addEventListener('keyup', function (e) { ... })
+  
   - eventUtil 是自定义对象，textInput 是 DOM3 级事件
+  
+  - UI事件，当用户与页面上的元素交互时触发，如：load、scroll
+  
+    焦点事件，当元素获得或失去焦点时触发，如：blur、focus
+  
+    鼠标事件，当用户通过鼠标在页面执行操作时触发如：dblclick、mouseup
+  
+    滚轮事件，当使用鼠标滚轮或类似设备时触发，如：mousewheel
+  
+    文本事件，当在文档中输入文本时触发，如：textInput
+  
+    键盘事件，当用户通过键盘在页面上执行操作时触发，如：keydown、keypress
+  
+    合成事件，当为IME（输入法编辑器）输入字符时触发，如：compositionstart
+  
+    变动事件，当底层DOM结构发生变化时触发，如：DOMsubtreeModified
+  
+    同时DOM3级事件也允许使用者自定义一些事件。
 
 ### DOM 事件模型
 
 捕获从上到下， 冒泡从下到上。
 先捕获，再到目标，再冒泡
-![事件模型](../img/dom 事件模型。jpg)
+![捕获过程](assets/04.png)
+
+![冒泡过程](assets/03.png)
 
 ### DOM 事件流
 
@@ -64,8 +92,12 @@ DOM 标准采用捕获 + 冒泡。两种事件流都会触发 DOM 的所有对�
 DOM 标准规定事件流包括三个阶段：
 
 - 事件捕获阶段
+
 - 处于目标阶段
-- 事件冒泡阶段
+
+- 事件冒泡阶段 
+
+  **如果给一个目标节点(触发节点)同时注册冒泡和捕获事件，事件触发会按照注册的顺序执行**
 
 ### 描述 DOM 事件捕获的具体流程
 

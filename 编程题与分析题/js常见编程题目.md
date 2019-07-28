@@ -78,3 +78,8 @@ xhr.open("POST", url, true);
 xhr.setRequestHeader("Content-Type": "application/x-www-form-urlencoded");
 xhr.send("key1=value1&key2=value2");
 ```
+
+
+
+## [20道JS原理题助你面试一臂之力](https://juejin.im/post/5d2ee123e51d4577614761f8?utm_source=gold_browser_extension)
+

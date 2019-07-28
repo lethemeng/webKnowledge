@@ -291,6 +291,16 @@ export function a() {}
 export default function() {}
 ```
 
+### [ES5 / ES6 的继承除了写法以外，还有什么区别？](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/20https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/20)
+
+ES5 先创造了子类的实例对象 this，然后再将父类的方法添加到this上， ES6的继承是先将父类实例对象的属性和方法添加到this上（constructor中必须先调用super方法）然后再用子类的构造函数修改this
+
+
+
+
+
+
+
 ## 手写 Promise
 
 先看看 Promise 是怎么用的

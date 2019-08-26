@@ -1,24 +1,9 @@
-<!-- TOC -->
+### vue 的优点是什么
 
-- [[vue 和 react 区别](https://juejin.im/post/5b8b56e3f265da434c1f5f76)](#vue-和-react-区别httpsjuejinimpost5b8b56e3f265da434c1f5f76)
-- [vue 的双向绑定的原理是什么（常考)](#vue-的双向绑定的原理是什么常考)
-- [为什么 Vue 3.0 中使用 Proxy 了](#为什么-vue-30-中使用-proxy-了)
-- [Vue computed 实现原理](#vue-computed-实现原理)
-- [computed 和 watch 区别](#computed-和-watch-区别)
-- [组件中 data 什么时候可以使用对象](#组件中-data-什么时候可以使用对象)
-- [Vue 虚拟 DOM](#vue-虚拟-dom)
-- [虚拟 DOM Diff 算法](#虚拟-dom-diff-算法)
-- [Vue.nextTick 的原理和用途](#vuenexttick-的原理和用途)
-- [前端路由原理](#前端路由原理)
-  - [Hash 模式](#hash-模式)
-  - [History 模式](#history-模式)
-  - [两种模式对比](#两种模式对比)
-- [Vue 生命周期](#vue-生命周期)
-  - [父子组件生命周期](#父子组件生命周期)
-  - [兄弟组件的生命周期](#兄弟组件的生命周期)
-  - [mixin](#mixin)
-
-<!-- /TOC -->
+- 低耦合。视图（View）可以独立于 Model 变化和修改，一个 ViewModel 可以绑定到不同的"View"上，当 View 变化的时候 Model 可以不变，当 Model 变化的时候 View 也可以不变。
+- 可重用性。你可以把一些视图逻辑放在一个 ViewModel 里面，让很多 view 重用这段视图逻辑。
+- 独立开发。开发人员可以专注于业务逻辑和数据的开发（ViewModel），设计人员可以专注于页面设计，使用 Expression Blend 可以很容易设计界面并生成 xml 代码。
+- 可测试。界面素来是比较难于测试的，而现在测试可以针对 ViewModel 来写。
 
 ### [vue 和 react 区别](https://juejin.im/post/5b8b56e3f265da434c1f5f76)
 
@@ -79,9 +64,33 @@ vue 首先会调用所有使用的数据，从而触发所有的 getter 函数�
 
 3. 为什么 Proxy 在 Vue 2.0 编写的时候出来了，尤大却没有用上去？因为当时 es6 环境不够成熟，兼容性不好，尤其是这个属性无法用 polyfill 来兼容。（polyfill 是一个 js 库，专门用来处理 js 的兼容性问题 -js 修补器）
 
-1、Proxy 可以劫持整个对象，避免了 Object.defineProperty 的遍历和递归，提高下性能和效率 2、有 13 种劫持操作
+1、Proxy 可以劫持整个对象，避免了 Object.defineProperty 的遍历和递归，提高下性能和效率
 
-![vue-data](../img/vue-data- 原理。png)
+2、有 13 种劫持操作
+
+	- **get(target, propKey, receiver)**
+	- **set(target, propKey, value, receiver)**
+	- **has(target, propKey)**
+	- **deleteProperty(target, propKey)**
+	- **ownKeys(target)**
+	- **getOwnPropertyDescriptor(target, propKey)**
+	- **defineProperty(target, propKey, propDesc)**
+	- **preventExtensions(target)**
+	- **getPrototypeOf(target)**
+	- **isExtensible(target)**
+	- **setPrototypeOf(target, proto)**
+	- **apply(target, object, args)**
+	- **construct(target, args)**
+
+3、Proxy 返回的是一个新对象,我们可以只操作新的对象达到目的,而 Object.defineProperty 只能遍历对象属性直接修改；
+
+4、Proxy 作为新标准将受到浏览器厂商重点持续的性能优化，也就是传说中的新标准的性能红利
+
+5、**Object.defineProperty**兼容性好，支持 IE9，而 Proxy 的存在浏览器兼容性问题,而且无法用 polyfill 磨平，因此 Vue 的作者才声明需要等到下个大版本( 3.0 )才能用 Proxy 重写。
+
+
+
+![vue-data](../img/vue-data-原理.png)
 
 ### Vue computed 实现原理
 
@@ -104,10 +113,14 @@ vue 首先会调用所有使用的数据，从而触发所有的 getter 函数�
 ### computed 和 watch 区别
 
 computed 是计算属性，依赖其他属性计算值，并且 computed 的值有缓存，只有当计算值变化才会返回内容。  
+
 computed 对应的是一个值依赖多个值
 
 watch 监听到值的变化就会执行回调，在回调中可以进行一些逻辑操作。
-watch 是一个值会影响对个值
+watch 是一个值会影响多个值
+
+1. Computed属于Computed Watcher， Watch属于User Watcher， User Watcher的执行顺序是最快的
+2. Watch具有销毁功能， vm.$watch(监听变量， 回调函数，配置项)返回的是销毁函数，内部调用teardown来销毁监听函数
 
 ### 组件中 data 什么时候可以使用对象
 
@@ -164,51 +177,6 @@ patch 的策略是：
 
 - 获取隐藏元素的 dom 属性
 
-### 前端路由原理
-
-前端路由实现起来其实很简单，本质就是监听 URL 的变化，然后匹配路由规则，显示相应的页面，并且无须刷新页面。目前前端使用的路由就只有两种实现方式。
-
-- Hash 模式
-- History 模式
-
-#### Hash 模式
-
-`www.test.com/#/` 就是 Hash URL，当 # 后面的哈希值发生变化时，可以通过 hashchange 事件来监听到 URL 的变化，从而进行跳转页面，并且无论哈希值如何变化，服务端接收到的 URL 请求永远是 www.test.com。
-
-```js
-window.addEventListener('hashchange', () => {
-  // ... 具体逻辑
-})
-```
-
-#### History 模式
-
-History 模式是 HTML5 新推出的功能，主要使用 `history.pushState` 和 `history.replaceState` 改变 URL。
-
-通过 History 模式改变 URL 同样不会引起页面的刷新，只会更新浏览器的历史记录。
-
-```js
-// 新增历史记录
-history.pushState(stateObject, title, URL)
-// 替换当前历史记录
-history.replaceState(stateObject, title, URL)
-```
-
-当用户做出浏览器动作时，比如点击后退按钮时会触发 popState 事件
-
-```js
-window.addEventListener('popstate', e => {
-  // e.state 就是 pushState(stateObject) 中的 stateObject
-  console.log(e.state)
-})
-```
-
-#### 两种模式对比
-
-- Hash 模式只可以更改 # 后面的内容，History 模式可以通过 API 设置任意的同源 URL
-- History 模式可以通过 API 添加任意类型的数据到历史记录中，Hash 模式只能更改哈希值，也就是字符串
-- Hash 模式无需后端配置，并且兼容性好。History 模式在用户手动输入地址或者刷新页面的时候会发起 URL 请求，后端需要配置 index.html 页面用于匹配不到静态资源的时候
-
 ### Vue 生命周期
 
 ![vue-lifecircle](../img/vue-lifecircle.png)
@@ -225,6 +193,25 @@ window.addEventListener('popstate', e => {
 2、当子组件完成挂载后，父组件会主动执行一次 beforeUpdate/updated 钩子函数（仅首次）  
 3、父子组件在 data 变化中是分别监控的，但是在更新 props 中的数据是关联的（可实践）
 4、销毁父组件时，先将子组件销毁后才会销毁父组件
+
+- 加载渲染过程
+
+父 beforeCreate -> 父 created -> 父 beforeMount -> 子 beforeCreate -> 子 created -> 子 beforeMount -> 子 mounted -> 父 mounted
+
+- 子组件更新过程
+
+父 beforeUpdate -> 子 beforeUpdate -> 子 updated -> 父 updated
+
+- 父组件更新过程
+
+父 beforeUpdate -> 父 updated
+
+- 销毁过程
+
+父 beforeDestroy -> 子 beforeDestroy -> 子 destroyed -> 父 destroyed
+
+
+
 
 #### 兄弟组件的生命周期
 
@@ -258,3 +245,135 @@ key 是给每一个 VNode 的一个唯一 id，在 diff 算法执行时可以依
 
 2、 更快
 利用 key 的唯一性，可以生成map对象来获取对应节点， 对比遍历查询的方式更快。 (map 会比遍历更快)
+
+
+
+### [Vue 中的单向数据流](https://github.com/wengjq/Blog/issues/17)
+
+所有的 prop 都使得其父子 prop 之间形成了一个**单向下行绑定**：父级 prop 的更新会向下流动到子组件中，但是反过来则不行。这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。
+
+##### 保持单向数据流的重要性
+
+在父组件中，**一个变量往往关联着多个变量或动作**
+
+- 如果在子组件中修改了传进来的prop对象，并且没有在父组件中`watch`该prop对象，不会主动触发其他变量的修改或动作的发生，导致数据局部展示错误。
+- 如果主动`watch`该prop对象，由于无法准确预知修改的来源和方式，从而大大增加了父组件的维护难度。
+
+#### 组件通信规范
+
+Vue 组件有多种通信方式，选择合理的通信方式，**尽可能保证数据的单向流动**。
+
+- `props`，遵守使用props来初始化子组件，尽量不修改props值
+- `refs`，父组件通过refs获取子组件实例，适用于**主动**获取（只读）子组件数据或调用子组件方法修改数据
+- `v-on`，适用于被动获取子组件数据
+- `bus`，监听自定义事件，适用于被动获取组件数据，忽略组件层级关系
+
+注：基于**数据劫持**和**发布订阅模式**。为了避免修改，可以直接使用深度拷贝来初始化。
+
+> [单向数据流]([https://chenoge.github.io/2019/01/19/%E5%85%B3%E4%BA%8EVue%E5%8D%95%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81%E7%9A%84%E7%90%86%E8%A7%A3/](https://chenoge.github.io/2019/01/19/关于Vue单向数据流的理解/))
+
+
+
+### [Vue 项目进行的优化实践](https://juejin.im/post/5d548b83f265da03ab42471d)
+
+**（1）代码层面的优化**
+
+- v-if 和 v-show 区分使用场景
+
+- computed 和 watch  区分使用场景
+
+- v-for 遍历必须为 item 添加 key，且避免同时使用 v-if
+
+- 长列表性能优化
+
+  Vue 会通过 Object.defineProperty 对数据进行劫持，来实现视图响应数据的变化，然而有些时候我们的组件就是纯粹的数据展示，不会有任何改变，我们就不需要 Vue 来劫持我们的数据，在大量数据展示的情况下，这能够很明显的减少组件初始化的时间
+
+  可以通过 Object.freeze 方法来冻结一个对象，一旦被冻结的对象就再也不能被修改了。
+
+  ```
+  export default {
+    data: () => ({
+      users: {}
+    }),
+    async created() {
+      const users = await axios.get("/api/users");
+      this.users = Object.freeze(users);
+    }
+  };
+  ```
+
+  
+
+- 事件的销毁
+
+- 图片资源懒加载
+
+- 路由懒加载
+
+- 第三方插件的按需引入
+
+- 优化无限列表性能
+
+如果你的应用存在非常长或者无限滚动的列表，那么需要采用 窗口化 的技术来优化性能，只需要渲染少部分区域的内容，减少重新渲染组件和创建 dom 节点的时间。 你可以参考以下开源项目 [vue-virtual-scroll-list](https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2Ftangbc%2Fvue-virtual-scroll-list) 和 [vue-virtual-scroller](https://link.juejin.im/?target=https%3A%2F%2Fgithub.com%2FAkryum%2Fvue-virtual-scroller)  来优化这种无限列表的场景的。
+
+- 服务端渲染 SSR or 预渲染
+
+**（2）Webpack 层面的优化**
+
+- Webpack 对图片进行压缩
+- 减少 ES6 转为 ES5 的冗余代码
+- 提取公共代码
+- 模板预编译
+- 提取组件的 CSS
+- 优化 SourceMap
+- 构建结果输出分析
+- Vue 项目的编译优化
+
+**（3）基础的 Web 技术的优化**
+
+- 开启 gzip 压缩
+- 浏览器缓存
+- CDN 的使用
+- 使用 Chrome Performance 查找性能瓶颈
+
+### Vue 3.0 特性了解
+
+#### **(1)监测机制的改变**
+
+3.0 将使用 `proxy` 实现 observer， 提供全语言覆盖和反应性跟踪，消除基于 `Object.definedProperty` 实现所存在的很多限制。
+
+新的 observer 还提供了以下特性：
+
+- 用于创建 observable 的公开 API。这为中小规模场景提供了简单轻量级的跨组件状态管理解决方案。
+- 默认采用惰性观察。在 2.x 中，不管反应式数据有多大，都会在启动时被观察到。如果你的数据集很大，这可能会在应用启动时带来明显的开销。在 3.x 中，只观察用于渲染应用程序最初可见部分的数据。
+- 更精确的变更通知。在 2.x 中，通过 Vue.set 强制添加新属性将导致依赖于该对象的 watcher 收到变更通知。在 3.x 中，只有依赖于特定属性的 watcher 才会收到通知。
+- 不可变的 observable：我们可以创建值的“不可变”版本（即使是嵌套属性），除非系统在内部暂时将其“解禁”。这个机制可用于冻结 prop 传递或 Vuex 状态树以外的变化。
+- 更好的调试功能：我们可以使用新的 renderTracked 和 renderTriggered 钩子精确地跟踪组件在什么时候以及为什么重新渲染。
+
+#### **(2）模板**
+
+模板方面没有大的变更，只改了作用域插槽，2.x 的机制导致作用域插槽变了，父组件会重新渲染，而 3.0 把作用域插槽改成了函数的方式，这样只会影响子组件的重新渲染，提升了渲染的性能。
+
+同时，对于 render 函数的方面，vue3.0 也会进行一系列更改来方便习惯直接使用 api 来生成 vdom 。
+
+#### **(3) 对象式的组件声明方式**
+
+vue2.x 中的组件是通过声明的方式传入一系列 option，和 TypeScript 的结合需要通过一些装饰器的方式来做，虽然能实现功能，但是比较麻烦。3.0 修改了组件的声明方式，改成了类式的写法，这样使得和 TypeScript 的结合变得很容易。
+
+此外，vue 的源码也改用了 TypeScript 来写。其实当代码的功能复杂之后，必须有一个静态类型系统来做一些辅助管理。现在 vue3.0 也全面改用 TypeScript 来重写了，更是使得对外暴露的 api 更容易结合 TypeScript。静态类型系统对于复杂代码的维护确实很有必要。
+
+#### **(4）其它方面的更改**
+
+vue3.0 的改变是全面的，上面只涉及到主要的 3 个方面，还有一些其他的更改：
+
+- 支持自定义渲染器，从而使得 weex 可以通过自定义渲染器的方式来扩展，而不是直接 fork 源码来改的方式。
+- 支持 Fragment（多个根节点）和 Protal（在 dom 其他部分渲染组建内容）组件，针对一些特殊的场景做了处理。
+- 基于 treeshaking 优化，提供了更多的内置功能。
+
+
+
+### 说说你使用 Vue 框架踩过最大的坑是什么？
+
+1、就地复用的坑
+
+vue在用v-if v-else渲染两个相同的按钮，一个绑定了事件，另外一个没有绑定事件。当渲染状态切换的时候，会导致未绑定事件的按钮也绑定上了事件。原因是有的vue版本在没给条件渲染的元素加上key标识时候会默认复用元素提升渲染能力，导致事件被错误的绑定上另一个按钮。解决方案：更换高版本vue，加上key标识两个按钮。

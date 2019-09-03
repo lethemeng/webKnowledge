@@ -134,7 +134,9 @@ console.log(sum)
 ### Es6 中箭头函数与普通函数的区别
 
 - 普通 function 的声明在变量提升中是最高的，箭头函数没有函数提升
-- 箭头函数没有属于自己的 this，arguments
+- 箭头函数的this对象是定义时所在的对象，而不是使用时
+- 箭头函数不能使用yield,箭头函数不可作为Generator函数
+- 箭头函数没有属于自己的 `this`，`arguments`，`super`、`new.target`
 - 箭头函数不能作为构造函数，不能被 new，没有 property
 - call 和 apply 方法只有参数，没有作用域
 

@@ -75,6 +75,14 @@ HTTP 是 Hyper Text Transfer Protocol（超文本传输协议）的缩写。它�
  - 205 Reset Content，表示请求成功，但响应报文不含实体的主体部分，但是与 204 响应不同在于要求请求方重置内容
  - **206** Partial Content，进行范围请求
 
+- **200 OK**：请求成功，请求所希望的响应头或数据体将随此响应返回
+- **201 Created**：
+- **202 Accepted**：
+- **203 Non-Authoritative Information**：
+- **204 No Content**：
+- **205 Reset Content**：
+- **206 Partial Content**：
+
 #### 3XX 重定向
  - **301** 永久性重定向，表示资源已被分配了新的 URL
  - **302** 临时性重定向，表示资源临时被分配了新的 URL
@@ -82,16 +90,50 @@ HTTP 是 Hyper Text Transfer Protocol（超文本传输协议）的缩写。它�
  - **304** 未修改，重定位到浏览器。自从上次请求后，请求的网页未修改过。服务器返回此响应时，不会返回网页内容。如果网页自请求者上次请求后再也没有更改过，您应将服务器配置为返回此响应（称为 If-Modified-Since HTTP 标头）。服务器可以告诉 Googlebot 自从上次抓取后网页没有变更，进而节省带宽和开销。
  - 307 临时重定向，和 302 含义类似，但是期望客户端保持请求方法不变向新的地址发出请求
 
+- **300 Multiple Choices**：
+- **301 Moved Permanently**：
+- **302 Found**：
+- **303 See Other**：
+- **304 Not Modified**：
+- **305 Use Proxy**：
+- **306 （unused）**：
+- **307 Temporary Redirect**：
+
 #### 4XX 客户端错误
  - **404** 在服务器上没有找到请求的资源
  - **403** forbidden，表示对请求资源的访问被服务器拒绝
  - 400 请求报文存在语法错误
  - 401  表示发送的请求需要有通过 HTTP 认证的认证信息
 
+- **400 Bad Request**:
+- **401 Unauthorized**:
+- **402 Payment Required**:
+- **403 Forbidden**:
+- **404 Not Found**:
+- **405 Method Not Allowed**:
+- **406 Not Acceptable**:
+- **407 Proxy Authentication Required**:
+- **408 Request Timeout**:
+- **409 Conflict**:
+- **410 Gone**:
+- **411 Length Required**:
+- **412 Precondition Failed**:
+- **413 Request Entity Too Large**:
+- **414 Request-URI Too Long**:
+- **415 Unsupported Media Type**:
+- **416 Requested Range Not Satisfiable**:
+- **417 Expectation Failed**:
+
 #### 5XX 服务器错误
  - **500** 表示服务器端在执行请求时发生了错误
  - 501 表示服务器不支持当前请求所需要的某个功能
  - **503** 表明服务器暂时处于超负载或正在停机维护，无法处理请求
+ - **500 Internal Server Error**:
+- **501 Not Implemented**:
+- **502 Bad Gateway**:
+- **503 Service Unavailable**:
+- **504 Gateway Timeout**:
+- **505 HTTP Version Not Supported**:
 
 ### HTTP 持久连接（HTTP1.1 支持）
 
@@ -191,7 +233,13 @@ HTTP 2.0 中所有加强性能的核心点在于此。在之前的 HTTP 版本�
 ### 服务端 Push
 在 HTTP 2.0 中，服务端可以在客户端某个请求后，主动推送其他资源。
 
+
+
 可以想象以下情况，某些资源客户端是一定会请求的，这时就可以采取服务端 push 的技术，提前给客户端推送必要的资源，这样就可以相对减少一点延迟时间。当然在浏览器兼容的情况下你也可以使用 prefetch。
+
+1、服务端需要配置，根据请求返回相应的资源
+
+2、http link 头
 
 ### HTTP 首部
 

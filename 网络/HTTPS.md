@@ -72,3 +72,16 @@ HTTPS 在传输的过程中会涉及到三个密钥：
 8. 客户端收到服务器发送来的密文，用客户端密钥对其进行对称解密，得到服务器发送的数据。这样 HTTPS 中的第二个 HTTP 请求结束，整个 HTTPS 传输完成。
 
 原文链接：https://www.jianshu.com/p/14cd2c9d2cd2
+
+http://mingjue.online/#/bottom/http?id=https
+
+
+
+### http 跟 https 的区别
+
+1. HTTPS协议需要到CA申请证书，一般免费证书很少，需要交费。
+2. HTTP协议运行在TCP之上，所有传输的内容都是明文，HTTPS运行在SSL/TLS之上，SSL/TLS运行在TCP之上，所有传输的内容都经过加密的。
+3. HTTP和HTTPS使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。
+4. HTTPS可以有效的防止运营商劫持，解决了防劫持的一个大问题。
+
+https 会降低用户的访问速度，增加服务端的cpu压力

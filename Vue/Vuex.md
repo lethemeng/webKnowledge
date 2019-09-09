@@ -1,3 +1,23 @@
+<!-- TOC -->
+
+  - [Vuex](#vuex)
+    - [vuex 原理](#vuex-原理)
+    - [vuex 是什么？怎么使用？哪种功能场景使用它](#vuex-是什么怎么使用哪种功能场景使用它)
+    - [vuex 有哪几种属性](#vuex-有哪几种属性)
+    - [vuex 的 store 特性是什么](#vuex-的-store-特性是什么)
+    - [vuex 的 getter 特性是什么](#vuex-的-getter-特性是什么)
+    - [vuex 的 mutation 特性是什么](#vuex-的-mutation-特性是什么)
+    - [vue 中 ajax 请求代码应该写在组件的 methods 中还是 vuex 的 action 中](#vue-中-ajax-请求代码应该写在组件的-methods-中还是-vuex-的-action-中)
+    - [不用 vuex 会带来什么问题](#不用-vuex-会带来什么问题)
+    - [使用 Vuex 只需执行 Vue.use(Vuex)，并在 Vue 的配置中传入一个 store 对象的示例，store 是如何实现注入的](#使用-vuex-只需执行-vueusevuex并在-vue-的配置中传入一个-store-对象的示例store-是如何实现注入的)
+    - [state 内部支持模块配置和模块嵌套，如何实现的](#state-内部支持模块配置和模块嵌套如何实现的)
+    - [在执行 dispatch 触发 action(commit 同理) 的时候，只需传入 (type, payload)，action 执行函数中第一个参数 store 从哪里获取的](#在执行-dispatch-触发-actioncommit-同理-的时候只需传入-type-payloadaction-执行函数中第一个参数-store-从哪里获取的)
+    - [Vuex 如何区分 state 是外部直接修改，还是通过 mutation 方法修改的](#vuex-如何区分-state-是外部直接修改还是通过-mutation-方法修改的)
+    - [调试时的"时空穿梭"功能是如何实现的](#调试时的时空穿梭功能是如何实现的)
+- [Vuex 和 Redux 的区别](#vuex-%e5%92%8c-redux-%e7%9a%84%e5%8c%ba%e5%88%ab)
+
+<!-- /TOC -->
+
 ## Vuex
 
 ![img](assets/68747470733a2f2f767565782e7675656a732e6f72672f767565782e706e67.png)

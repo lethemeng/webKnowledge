@@ -190,6 +190,153 @@ ajax(url)
 
 其实它也是存在一些缺点的，比如无法取消 Promise，错误需要通过回调函数捕获。
 
+### promise 必知必会
+
+
+
+1. promise 中 `return new Error('error')`不会抛出错误， 因此不会被`catch`接住
+
+```js
+
+Promise.resolve()
+  .then(() => {
+    return new Error('error!!!')
+  })
+  .then((res) => {
+    console.log('then: ', res)
+  })
+  .catch((err) => {
+    console.log('catch: ', err)
+  })
+// 输出
+then: Error: error!!!
+    at Promise.resolve.then (...)
+    at ...
+```
+
+要能被catch 需要修改成下面两种：
+
+```js
+return Promise.reject(new Error('error'))
+
+throw new Error('error!!')
+```
+
+因为返回任意一个值都会被包装成promise对象，即 `return new Error('error!!!')` 等价于 `return Promise.resolve(new Error('error!!!'))`。
+
+2、promise循环引用会报错
+
+```js
+const promise = Promise.resolve()
+  .then(() => {
+    return promise
+  })
+promise.catch(console.error)
+```
+
+![1568028277611](../img/1568028277611.png)
+
+3、`.then` 或者 `.catch` 的参数期望是函数，传入非函数则会发生值穿透
+
+```js
+Promise.resolve(1)
+  .then(2)
+  .then(Promise.resolve(3))
+  .then(console.log)
+  
+  // 1
+```
+
+4、`.then` 可以接收两个参数，第一个是处理成功的函数，第二个是处理错误的函数。`.catch` 是 `.then` 第二个参数的简便写法，但是它们用法上有一点需要注意：`.then` 的第二个处理错误的函数捕获不了第一个处理成功的函数抛出的错误，而后续的 `.catch` 可以捕获之前的错误
+
+```js
+Promise.resolve()
+  .then(function success (res) {
+    throw new Error('error')
+  }, function fail1 (e) {
+    console.error('fail1: ', e)
+  })
+  .catch(function fail2 (e) {
+    console.error('fail2: ', e)
+  })
+  
+  fail2: Error: error
+    at success (...)
+    at ...
+
+```
+
+5、`process.nextTick` 和 `promise.then` 都属于 microtask，而 `setImmediate` 属于 macrotask，在事件循环的 check 阶段执行。事件循环的每个阶段（macrotask）之间都会执行 microtask，事件循环的开始会先执行一次 microtask。
+
+```
+process.nextTick(() => {
+  console.log('nextTick')
+})
+Promise.resolve()
+  .then(() => {
+    console.log('then')
+  })
+setImmediate(() => {
+  console.log('setImmediate')
+})
+console.log('end')
+
+// end
+// nextTick
+// then
+// setImmediate
+```
+
+5、promise 构造函数是同步执行，`promise.then` 中的函数是异步执行的。
+
+```js
+const promise = new Promise((resolve, reject) => {
+  console.log(1)
+  resolve()
+  console.log(2)
+})
+promise.then(() => {
+  console.log(3)
+})
+console.log(4)
+1 2 4 3
+```
+
+6、promise 有 3 种状态：pending、fulfilled 或 rejected。状态改变只能是 pending->fulfilled 或者 pending->rejected，状态一旦改变则不能再变。构造函数中的 resolve 或 reject 只有第一次执行有效，多次调用没有任何作用，
+
+```js
+const promise1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('success')
+  }, 1000)
+})
+const promise2 = promise1.then(() => {
+  throw new Error('error!!!')
+})
+
+console.log('promise1', promise1)
+console.log('promise2', promise2)
+
+setTimeout(() => {
+  console.log('promise1', promise1)
+  console.log('promise2', promise2)
+}, 2000)
+
+promise1 Promise { <pending> }
+promise2 Promise { <pending> }
+(node:50928) UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1): Error: error!!!
+(node:50928) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+promise1 Promise { 'success' }
+promise2 Promise {
+  <rejected> Error: error!!!
+    at promise.then (...)
+    at <anonymous> }
+```
+
+
+
+
+
 ### async 和 await
 
 一个函数如果加上 async ，那么该函数就会返回一个 Promise

@@ -114,11 +114,6 @@ e、浏览器兼容性：最大缺点，IE9 以下浏览器几乎全军覆没。
  - DOM 由 HTML 解析而来
  - JS 可以维护 DOM
 
-### property 和 attribute 的区别
-例如一个 input 标签 `<input value="3" />`
-他的 attribute 是 3
-但如果使用`input.value = 4` 或 直接修改值为 4，这时再去 getAttribute 得到的还是"3"
-
 ### form 作用
  - 直接提交表单
  - 使用 submit / reset 按钮
@@ -144,20 +139,7 @@ e、浏览器兼容性：最大缺点，IE9 以下浏览器几乎全军覆没。
  - 搜索引擎的爬虫也依赖于 HTML 标记来确定上下文和各个关键字的权重，利于 SEO;
  - 使阅读源代码的人对网站更容易将网站分块，便于阅读维护理解。
 
-### 请描述一下 cookies，sessionStorage 和 localStorage 的区别
-
- - cookie 是网站为了标示用户身份而储存在用户本地终端（Client Side）上的数据（通常经过加密）
- - cookie 数据始终在同源的 http 请求中携带（即使不需要），记会在浏览器和服务器间来回传递。
- - sessionStorage 和 localStorage 不会自动把数据发给服务器，仅在本地保存。
- - 存储大小：
-   - cookie 数据大小不能超过 4k。
-   - sessionStorage 和 localStorage 虽然也有存储大小的限制，但比 cookie 大得多，可以达到 5M 或更大。
- - 有效期（生命周期）：
-   - localStorage: 存储持久数据，浏览器关闭后数据不丢失除非主动删除数据；
-   - sessionStorage: 数据在当前浏览器窗口关闭后自动删除。
-   - cookie: 设置的 cookie 过期时间之前一直有效，即使窗口或浏览器关闭
- - 共享
-   - sessionStorage 不能共享，localStorage 在同源文档之间共享，cookie 在同源且符合 path 规则的文档之间共享
+ - - 
 
 ### html 中 title 属性和 alt 属性的区别
 
@@ -218,3 +200,4 @@ head 子元素大概分为三类，分别是：
 有 async，加载和渲染后续文档元素的过程将和 script.js 的加载与执行并行进行。
 async 的 js 在下载完后会立即执行
 3. `<script defer src="myscript.js"></script>`有 defer，加载后续文档元素的过程将和 script.js 的加载并行进行（异步），但是 script.js 的执行要在所有元素解析完成之后，DOMContentLoaded 事件触发之前完成。
+

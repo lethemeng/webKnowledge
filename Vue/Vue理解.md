@@ -1,3 +1,36 @@
+<!-- TOC -->
+
+- [vue 的优点是什么](#vue-的优点是什么)
+- [[vue 和 react 区别](https://juejin.im/post/5b8b56e3f265da434c1f5f76)](#vue-和-react-区别httpsjuejinimpost5b8b56e3f265da434c1f5f76)
+- [vue 的双向绑定的原理是什么（常考)](#vue-的双向绑定的原理是什么常考)
+- [为什么 Vue 3.0 中使用 Proxy 了](#为什么-vue-30-中使用-proxy-了)
+- [Vue computed 实现原理](#vue-computed-实现原理)
+- [computed 和 watch 区别](#computed-和-watch-区别)
+- [组件中 data 什么时候可以使用对象](#组件中-data-什么时候可以使用对象)
+- [Vue 虚拟 DOM](#vue-虚拟-dom)
+- [虚拟 DOM Diff 算法](#虚拟-dom-diff-算法)
+- [Vue.nextTick 的原理和用途](#vuenexttick-的原理和用途)
+- [Vue 生命周期](#vue-生命周期)
+  - [父子组件生命周期](#父子组件生命周期)
+  - [兄弟组件的生命周期](#兄弟组件的生命周期)
+  - [mixin](#mixin)
+- [React / Vue 列表中 key 的作用](#react--vue-列表中-key-的作用)
+  - [Vue中的key](#vue中的key)
+  - [key 的作用](#key-的作用)
+- [[Vue 中的单向数据流](https://github.com/wengjq/Blog/issues/17)](#vue-中的单向数据流httpsgithubcomwengjqblogissues17)
+    - [保持单向数据流的重要性](#保持单向数据流的重要性)
+  - [组件通信规范](#组件通信规范)
+- [[Vue 项目进行的优化实践](https://juejin.im/post/5d548b83f265da03ab42471d)](#vue-项目进行的优化实践httpsjuejinimpost5d548b83f265da03ab42471d)
+- [Vue 3.0 特性了解](#vue-30-特性了解)
+  - [**(1)监测机制的改变**](#1监测机制的改变)
+  - [**(2）模板**](#2模板)
+  - [**(3) 对象式的组件声明方式**](#3-对象式的组件声明方式)
+  - [**(4）其它方面的更改**](#4其它方面的更改)
+- [说说你使用 Vue 框架踩过最大的坑是什么？](#说说你使用-vue-框架踩过最大的坑是什么)
+
+<!-- /TOC -->
+
+
 ### vue 的优点是什么
 
 - 低耦合。视图（View）可以独立于 Model 变化和修改，一个 ViewModel 可以绑定到不同的"View"上，当 View 变化的时候 Model 可以不变，当 Model 变化的时候 View 也可以不变。

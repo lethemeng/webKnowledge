@@ -1,3 +1,13 @@
+<!-- TOC -->
+
+- [CSRF 跨站请求伪造](#csrf-%e8%b7%a8%e7%ab%99%e8%af%b7%e6%b1%82%e4%bc%aa%e9%80%a0)
+  - [CSRF 攻击原理](#csrf-%e6%94%bb%e5%87%bb%e5%8e%9f%e7%90%86)
+  - [CSRF 防御](#csrf-%e9%98%b2%e5%be%a1)
+  - [CSRF 蠕虫](#csrf-%e8%a0%95%e8%99%ab)
+  - [CSRF 攻击危害](#csrf-%e6%94%bb%e5%87%bb%e5%8d%b1%e5%ae%b3)
+
+<!-- /TOC -->
+
 # CSRF 跨站请求伪造
 
 （Cross Site Request Forgy）

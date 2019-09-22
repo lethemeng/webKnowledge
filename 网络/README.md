@@ -36,7 +36,7 @@ title： 网络知识
 
 ## [从输入 URL 到页面加载完成的过程](从输入URL到页面加载完成的过程.md)
 
-### OSI 七层协议
+## OSI 七层协议
 
 - 应用层
   - 为应用提供通信服务
@@ -55,7 +55,9 @@ title： 网络知识
 - 物理层
   - 传输介质相关
 
-### DNS 解析
+![img](../img/20190819115726.png)
+
+## DNS 解析
 
 DNS 的作用就是通过域名查询到具体的 IP。
 
@@ -75,6 +77,32 @@ DNS 的作用就是通过域名查询到具体的 IP。
 
 ### 如何创建 Ajax
 
+Ajax其核心有JavaScript、XMLHTTPRequest、DOM对象组成，通过XmlHttpRequest对象来向服务器发异步请求，从服务器获得数据，然后用JavaScript来操作DOM而更新页面。
+
+XMLHttpRequest 对象方法描述 
+
+| 方    法                                                   | 描    述                                                     |
+| ---------------------------------------------------------- | ------------------------------------------------------------ |
+| abort()                                                    | 停止当前请求                                                 |
+| getAllResponseHeaders()                                    | 把HTTP请求的所有响应首部作为键/值对返回                      |
+| getResponseHeader("header")                                | 返回指定首部的串值                                           |
+| open("method","URL",[asyncFlag],["userName"],["password"]) | 建立对服务器的调用。method参数可以是GET、POST或PUT。url参数可以是相对URL或绝对URL。这个方法还包括3个可选的参数，是否异步，用户名，密码 |
+| send(content)                                              | 向服务器发送请求                                             |
+| setRequestHeader("header", "value")                        | 把指定首部设置为所提供的值。在设置任何首部之前必须先调用open()。设置header并和请求一起发送 ('post'方法一定要 ) |
+
+XMLHttpRequest 对象属性描述
+
+| 属  性             | 描    述                                                     |
+| ------------------ | ------------------------------------------------------------ |
+| onreadystatechange | 状态改变的事件触发器，每个状态改变时都会触发这个事件处理器，通常会调用一个JavaScript函数 |
+| readyState         | 请求的状态。有5个可取值：0 = 未初始化，1 = 正在加载，2 = 已加载，3 = 交互中，4 = 完成 |
+| responseText       | 服务器的响应，返回数据的文本。                               |
+| responseXML        | 服务器的响应，返回数据的兼容DOM的XML文档对象 ，这个对象可以解析为一个DOM对象。 |
+| responseBody       | 服务器返回的主题（非文本格式）                               |
+| responseStream     | 服务器返回的数据流                                           |
+| status             | 服务器的HTTP状态码（如：404 = "文件末找到" 、200 ="成功" ，等等） |
+| statusText         | 服务器返回的状态文本信息 ，HTTP状态码的相应文本（OK或Not Found（未找到）等等） |
+
 ```js
 var xhr
 if (window.XMLHttpRequest) {
@@ -93,14 +121,7 @@ xhr.open('GET', '...', '是否异步')
 xhr.send()
 ```
 
-原生 js 写 ajaxpromise 对象  
-`readyState`
-
-- 0 -- 初始化，还未调用 send()
-- 1 -- 已经调用 send() 正在发生请求
-- 2 -- send() 执行完毕，已经接收响应内容
-- 3 -- 正在解析响应内容
-- 4 -- 响应内容解析完成，可以在客户端调用
+原生 js 写 ajax，promise 对象 
 
 ```javascript
 const ajaxPromise = param => {
@@ -123,3 +144,17 @@ const ajaxPromise = param => {
   })
 }
 ```
+
+AJAX的优缺点
+
+优点：
+
+<1>.无刷新更新数据
+
+<2>.异步与服务器通信。
+
+<3>.前端和后端负载平衡。
+
+缺点
+
+<1>.AJAX干掉了Back和History功能，即对浏览器机制的破坏。

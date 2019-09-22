@@ -139,6 +139,8 @@
 
 4. flex
 
+
+
 ```html
 <div class="wrap">
   <div class="left">左侧</div>
@@ -158,15 +160,18 @@
   }
   .left {
     width: 200px;
+    /*flex: 0 0 12em*/
     background: coral;
   }
   .right {
     width: 120px;
+    /*flex: 0 0 12em*/
     background: lightblue;
   }
   .middle {
     background: #555;
     width: 100%;
+    /*flex: 1;*/
     margin: 0 20px;
   }
 </style>

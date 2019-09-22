@@ -1,6 +1,22 @@
-### webpack 简介
+##  webpack 简介
+
+组件化、模块化开发的模式产生有个问题必然会产生，就是如何把模块、组件加载组合到一起。
+
+本质上 webpack 是一个现代 JavaScript 应用程序的静态模块打包器。它递归的构建一个依赖关系图，其中包含应用程序的每个模块，然后将这些模块打包成一个或多个 bundle.js。
+webpack 支持 CommonJS，AMD，ES6 等规范，所以我们在代码中可以使用多种模块加载规范，而且通过 loader，它不仅可以处理 JavaScript，还可以处理像 css，图片等等的静态资源。
+
+webpack 的优势  
+
+1、支持 CommonJS 和 AMD 模块。  
+2、支持模块加载器和插件机制，可对模块灵活定制。babel-loader 支持 ES6  
+3、可以通过配置，打包成多个文件。有效的利用浏览器的缓存。  
+4、将样式文件和图片等静态资源视为模块进行打包。配合 loader 加载器，对资源进行处理。
 
 > https://segmentfault.com/a/1190000015088834
+>
+> [Webpack原理与实践（一）：打包流程](https://juejin.im/post/5be9297351882516f5786404)
+
+#### 组成部分
 
 webpack 是一个前端模块化打包工具，主要由入口，出口，loader，plugins 四个部分。
 
@@ -12,9 +28,9 @@ webpack 是一个前端模块化打包工具，主要由入口，出口，loader
 
 devDependencies 节点下的模块是我们在开发时需要用的，比如项目中使用的 gulp ，压缩 css、js 的模块。这些模块在我们的项目部署后是不需要的，所以我们可以使用 -save-dev 的形式安装
 
+#### 运行过程
 
-
-Webpack 的运行流程是一个串行的过程，从启动到结束会依次执行以下流程：
+**Webpack 的运行流程是一个串行的过程**，从启动到结束会依次执行以下流程：
 
 1. 初始化参数：从配置文件和 Shell 语句中读取与合并参数，得出最终的参数；
 2. 开始编译：用上一步得到的参数初始化 Compiler 对象，加载所有配置的插件，执行对象的 run 方法开始执行编译；
@@ -26,13 +42,53 @@ Webpack 的运行流程是一个串行的过程，从启动到结束会依次执
 
 在以上过程中，Webpack 会在特定的时间点广播出特定的事件，插件在监听到感兴趣的事件后会执行特定的逻辑，并且插件可以调用 Webpack 提供的 API 改变 Webpack 的运行结果。
 
+![image](../img/16706c9d07bd3b67)
+
+### [webpack4.0源码分析之Tapable](https://juejin.im/post/5abf33f16fb9a028e46ec352)
+
+webpack 本质上是一种事件流机制，他的工作流程就是讲各个插件串联起来。而实现这一切的核心就是`Tapable`，`webpack`中最核心的负责编译的`Compiler`和负责创建bundles的`Compilation`都是`Tapable`的实例。本文主要介绍一下Tapable中的钩子函数。
+
+![hooks](../img/1627c9c828c20aa1)
+
+序号 | 钩子名称 | 执行方式 | 使用要点     1 SyncHook 同步串行 不关心监听函数的返回值   2 SyncBailHook 同步串行 只要监听函数中有一个函数的返回值不为 `null`，则跳过剩下所有的逻辑   3 SyncWaterfallHook 同步串行 上一个监听函数的返回值可以传给下一个监听函数   4 SyncLoopHook 同步循环 当监听函数被触发的时候，如果该监听函数返回`true`时则这个监听函数会反复执行，如果返回 `undefined` 则表示退出循环   5 AsyncParallelHook 异步并发 不关心监听函数的返回值   6 AsyncParallelBailHook 异步并发 只要监听函数的返回值不为 `null`，就会忽略后面的监听函数执行，直接跳跃到`callAsync`等触发函数绑定的回调函数，然后执行这个被绑定的回调函数   7 AsyncSeriesHook 异步串行 不关系`callback()`的参数   8 AsyncSeriesBailHook 异步串行 `callback()`的参数不为`null`，就会直接执行`callAsync`等触发函数绑定的回调函数   9 AsyncSeriesWaterfallHook 异步串行 上一个监听函数的中的`callback(err, data)`的第二个参数,可以作为下一个监听函数的参数
+
+作者：whynotgonow链接：https://juejin.im/post/5abf33f16fb9a028e46ec352
 
 
-# [import、require、export、module.exports 混合使用详解](https://juejin.im/post/5a2e5f0851882575d42f5609)
+
+### 输出文件分析
+
+立即执行函数
+
+```js
+(function(modules) {
+
+  // 模拟 require 语句
+  function __webpack_require__() {
+  }
+
+  // 执行存放所有模块数组中的第0个模块
+  __webpack_require__(0);
+
+})([/*存放所有模块的数组*/])
+
+```
+
+`bundle.js` 能直接运行在浏览器中的原因在于输出的文件中通过 `__webpack_require__` 函数定义了一个可以在浏览器中执行的加载函数来模拟 Node.js 中的 `require` 语句。
+
+原来一个个独立的模块文件被合并到了一个单独的 `bundle.js` 的原因在于浏览器不能像 Node.js 那样快速地去本地加载一个个模块文件，而必须通过网络请求去加载还未得到的文件。 如果模块数量很多，加载时间会很长，因此把所有模块都存放在了数组中，执行一次网络加载。
+
+如果仔细分析 `__webpack_require__` 函数的实现，你还有发现 Webpack 做了缓存优化： 执行加载过的模块不会再执行第二次，执行结果会缓存在内存中，当某个模块第二次被访问时会直接去内存中读取被缓存的返回值。
+
+### 代码分割输出
+
+在使用了 `CommonsChunkPlugin` 去提取公共代码时输出的文件和使用了异步加载时输出的文件是一样的，都会有 `__webpack_require__.e` 和 `webpackJsonp`。 原因在于提取公共代码和异步加载本质上都是代码分割。
 
 
 
-### [Webpack4](https://juejin.im/post/5adea0106fb9a07a9d6ff6de)
+ [import、require、export、module.exports 混合使用详解](https://juejin.im/post/5a2e5f0851882575d42f5609)
+
+## [Webpack4](https://juejin.im/post/5adea0106fb9a07a9d6ff6de)
 
 1. `npm init`
 
@@ -271,8 +327,6 @@ PS：简单说就一个Task Runner
 [Webpack](https://link.jianshu.com/?t=https://github.com/webpack/webpack) 是当下最热门的前端资源模块化管理和打包工具。它可以将许多松散的模块按照依赖和规则打包成符合生产环境部署的前端资源。还可以将按需加载的模块进行代码分隔，等到实际需要的时候再异步加载。通过 loader的转换，任何形式的资源都可以视作模块，比如 CommonJs 模块、AMD 模块、ES6 模块、CSS、图片、JSON、Coffeescript、LESS 等。
 
 webpack是一个前端模块化方案，更侧重模块打包，我们可以把开发中的所有资源（图片、js文件、css文件等）都看成模块，通过loader（加载器）和plugins（插件）对资源进行处理，打包成符合生产环境部署的前端资源。
-
-
 
 Gulp侧重于前端开发的**整个过程**的控制管理（像是流水线），我们可以通过给gulp配置不通的task（通过Gulp中的gulp.task()方法配置，比如启动server、sass/less预编译、文件的合并压缩等等）来让gulp实现不同的功能，从而构建整个前端开发流程。
 

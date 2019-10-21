@@ -319,7 +319,7 @@ HTTP 2.0 中所有加强性能的核心点在于此。在之前的 HTTP 版本�
 |     Expires      |          内容的过期时间          |
 |  Last_modified   |        内容的最后修改时间        |
 
-### [详解重定向（HTTP状态码301/302/303/307/408）附例子](https://www.cnblogs.com/wuguanglin/p/redirect.html)
+### [详解重定向（HTTP状态码301/302/303/307/308）附例子](https://www.cnblogs.com/wuguanglin/p/redirect.html)
 
 **301 Moved Permanently（永久移动）**
 
@@ -441,3 +441,9 @@ Web服务器将用户代理用于多种目的，包括：
 
 1. header压缩，如上文中所言，对前面提到过HTTP1.x的header带有大量信息，而且每次都要重复发送，HTTP2.0使用encoder来减少需要传输的header大小，通讯双方各自cache一份header fields表，既避免了重复header的传输，又减小了需要传输的大小。
 2. 服务端推送（server push），同SPDY一样，HTTP2.0也具有server push功能。服务端可以在客户端某个请求后，主动推送其他资源。目前，有大多数网站已经启用HTTP2.0，例如YouTuBe，淘宝网等网站，利用chrome控制台可以查看是否启用H2。
+
+### Etag 为何带引号
+
+首先 HTTP报头的名称是不区分大小写，根据[RFC 2616]( https://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2 )： 每个标题字段均由名称，后跟冒号（“：”）和字段值组成。字段名称不区分大小写。 
+
+ https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.19 

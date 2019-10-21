@@ -59,12 +59,26 @@ methods: {
 
 ### 组件之间的传值
 
-
-
 - `props/$emit` 父子组件
   - 父组件与子组件传值  props
   - 子组件向父组件传递数据 $emit
 - `ref` 与 `$parent / $children` 父子组件
+
+```js
+
+//children，parent 并不保证顺序，也不是响应式的 只能拿到一级父组件和子组件
+//父组件
+mounted(){
+  console.log(this.$children) 
+  //可以拿到 一级子组件的属性和方法
+  //所以就可以直接改变 data,或者调用 methods 方法
+}
+
+//子组件
+mounted(){
+  console.log(this.$parent) //可以拿到 parent 的属性和方法
+}
+```
 
 - EventBus `$emit $on`   父子组件 兄弟组件
 
@@ -72,13 +86,27 @@ methods: {
 
 - `$attr $listeners`   **隔代组件通信**
 
-  ``` 
+  ``` vue
+  //$attrs attrs获取子传父中未在 props 定义的值
+  // 父组件 
+  <home title="这是标题" width="80" height="80" imgUrl="imgUrl"/>
+  
+  // 子组件
+  mounted() {
+    console.log(this.$attrs) //{title: "这是标题", width: "80", height: "80", imgUrl: "imgUrl"}
+  }
+  // $listeners 子组件调用父组件的方法
+  // 父组件
+  <home @change="change"/>
+  
+  // 子组件
+  mounted() {
+    console.log(this.$listeners) //即可拿到 change 事件
+  }
   
   ```
 
-  
-
-- **`provide / inject` 适用于 隔代组件通信  **
+- **`provide / inject` 适用于 隔代组件通信  ** ， provide 和 inject 绑定并不是可响应的。 
 
   ```
   // 父组件
@@ -91,7 +119,22 @@ methods: {
   inject: ['getMap']
   ```
 
-  
+- .sync
+
+  在 vue@1.x 的时候曾作为双向绑定功能存在，即子组件可以修改父组件中的值; 在 vue@2.0 的由于违背单项数据流的设计被干掉了; 在 vue@2.3.0+ 以上版本又重新引入了这个 .sync 修饰符;
+
+```vue
+// 父组件
+<home :title.sync="title" />
+//编译时会被扩展为
+<home :title="title"  @update:title="val => title = val"/>
+
+// 子组件
+// 所以子组件可以通过$emit 触发 update 方法改变
+mounted(){
+  this.$emit("update:title", '这是新的title')
+}
+```
 
 
 
